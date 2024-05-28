@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const sequelize = require('./config/database.js');
-const sembakoController = require('../controllers/sembakoController');
+const sembakoController = require('../controllers/sembakoController.js');
 
 // Middleware
 app.use(express.json());
