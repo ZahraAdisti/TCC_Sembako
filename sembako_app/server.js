@@ -1,34 +1,18 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const sembakoRoutes = require('./routes/sembakoRoutes');
+const sequelize = require('./models/index');
+
 const app = express();
-const path = require('path');
-const sequelize = require('./config/database.js');
-const sembakoController = require('../controllers/sembakoController');
 
-// Middleware
-app.use(express.json());
-
-// Middleware for CORS
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
-
-// Routes
-app.use('/api', shoeRoutes);
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Sync the database schema
-sequelize.sync().then(() => {
-    console.log('Database synced');
-}).catch(err => {
-    console.error('Error syncing database:', err);
-});
+app.use(bodyParser.json());
+app.use('/api', sembakoRoutes);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+
+sequelize.sync({ force: false }).then(() => {
+    console.log('Database & tables created!');
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
 });
