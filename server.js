@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const sequelize = require('./config/database.js');
-const sembakoController = require('../controllers/sembakoController.js');
+const sembakoController = require('../controllers/sembakoController');
 
 // Middleware
 app.use(express.json());
@@ -28,7 +28,7 @@ sequelize.sync().then(() => {
     console.error('Error syncing database:', err);
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
