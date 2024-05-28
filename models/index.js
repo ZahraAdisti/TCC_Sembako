@@ -1,4 +1,3 @@
-// models/index.js
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('toko_sembako', 'root', '', {
@@ -15,4 +14,3 @@ sequelize.authenticate()
   });
 
 module.exports = sequelize;
-
