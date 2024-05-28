@@ -1,4 +1,4 @@
-const { Sembako } = require('../models'); // Ubah impor ini
+const { Sembako } = require('../models/sembako'); // Ubah impor ini
 
 // Mendapatkan semua sembako
 exports.getAllSembako = async (req, res) => {
