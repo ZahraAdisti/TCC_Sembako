@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const sequelize = require('./config/database.js'); // Pastikan impor dari config/database.js
+const sequelize = require('./config/database'); // Pastikan impor dari config/database.js
 const sembakoRoutes = require('./routes/sembakoRoutes'); // Pastikan impor route sembako
 
 // Middleware
