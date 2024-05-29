@@ -1,4 +1,4 @@
 # app.yaml
 runtime: nodejs18
-service:crud-toko-sembako 
+service: crud-toko-sembako 
 
