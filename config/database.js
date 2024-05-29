@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize('toko_sembako', 'root', '', {
-  host: '34.101.223.26', // Pastikan host ini benar
+  host: '34.128.86.172', // Pastikan host ini benar
   dialect: 'mysql'
 });
 
