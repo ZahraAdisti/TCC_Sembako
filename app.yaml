@@ -2,3 +2,6 @@
 runtime: nodejs18
 service: crud-toko-sembako 
 
+handlers:
+  - url: /api/.*
+    script: auto
