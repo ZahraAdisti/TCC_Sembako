@@ -1,4 +1,4 @@
-const sequelize = require('./index'); // Pastikan impor sequelize dari index.js
+const sequelize = require('./index.js'); // Pastikan impor sequelize dari index.js
 const { DataTypes } = require('sequelize');
 
 const Sembako = sequelize.define('Sembako', {
