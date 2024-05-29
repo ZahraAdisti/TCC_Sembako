@@ -1,7 +1,7 @@
 // routes/sembakoRoutes.js
 const express = require('express');
 const router = express.Router();
-const sembakoController = require('../controllers/sembakoController');
+const sembakoController = require('../controllers/sembakoController.js');
 
 // Dapatkan semua Sembako
 router.get('/sembako', sembakoController.getAllSembako);
