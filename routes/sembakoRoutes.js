@@ -1,7 +1,6 @@
-// routes/sembakoRoutes.js
 const express = require('express');
 const router = express.Router();
-const sembakoController = require('../controllers/sembakoController.js');
+const sembakoController = require('../controllers/sembakoController');
 
 // Dapatkan semua Sembako
 router.get('/sembako', sembakoController.getAllSembako);
@@ -16,6 +15,6 @@ router.get('/sembako/:id', sembakoController.getSembakoById);
 router.put('/sembako/:id', sembakoController.updateSembako);
 
 // Hapus Sembako berdasarkan ID
-router.delete('/sembako/:id', sembakoController.deleteSembako); // Perbaikan dilakukan di sini
+router.delete('/sembako/:id', sembakoController.deleteSembako);
 
 module.exports = router;
