@@ -1,4 +1,4 @@
-const { Sembako } = require('../models/sembako.js'); // Ubah impor ini
+const Sembako = require('../models/sembako'); // Pastikan impor ini benar
 
 // Mendapatkan semua sembako
 exports.getAllSembako = async (req, res) => {
