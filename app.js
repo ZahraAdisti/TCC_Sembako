@@ -1,4 +1,3 @@
-// app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const sembakoRoutes = require('./routes/sembakoRoutes');
@@ -17,4 +16,3 @@ sequelize.sync({ force: false }).then(() => {
         console.log(`Server is running on port ${PORT}`);
     });
 });
-
