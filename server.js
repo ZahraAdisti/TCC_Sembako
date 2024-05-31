@@ -3,6 +3,8 @@ const app = express();
 const path = require('path');
 const sequelize = require('./config/database'); // Pastikan impor dari config/database.js
 const sembakoRoutes = require('./routes/sembakoRoutes'); // Pastikan impor route sembako
+const sembakoRoutes = require('./routes/userRoutes'); // Pastikan impor route sembako
+
 
 // Middleware
 app.use(express.json());
@@ -16,6 +18,7 @@ app.use((req, res, next) => {
 });
 
 // Routes
+app.use('/api/user', userRoutes); // Pastikan impor dan penggunaan routes sembako
 app.use('/api', sembakoRoutes); // Pastikan impor dan penggunaan routes sembako
 
 // Serve static files from the 'public' directory
