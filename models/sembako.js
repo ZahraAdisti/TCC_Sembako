@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database'); // Ensure this path is correct
 
-const Sembako = sequelize.define('Sembako', {
+const Sembako = sequelize.define('sembako', {
     name: {
         type: DataTypes.STRING,
         allowNull: false
