@@ -3,18 +3,18 @@ const router = express.Router();
 const sembakoController = require('../controllers/sembakoController');
 
 // Dapatkan semua Sembako
-router.get('/sembako', sembakoController.getAllSembako);
+router.get('/sembakos', sembakoController.getAllSembakos);
 
 // Buat Sembako baru
-router.post('/sembako', sembakoController.createSembako);
+router.post('/sembakos', sembakoController.createSembakos);
 
 // Dapatkan Sembako berdasarkan ID
-router.get('/sembako/:id', sembakoController.getSembakoById);
+router.get('/sembakos/:id', sembakoController.getSembakosById);
 
 // Perbarui Sembako berdasarkan ID
-router.put('/sembako/:id', sembakoController.updateSembako);
+router.put('/sembakos/:id', sembakoController.updateSembakos);
 
 // Hapus Sembako berdasarkan ID
-router.delete('/sembako/:id', sembakoController.deleteSembako);
+router.delete('/sembakos/:id', sembakoController.deleteSembakos);
 
 module.exports = router;
