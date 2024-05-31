@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const sequelize = require('./config/database');
 const sembakoRoutes = require('./routes/sembakoRoutes');
+const userRoutes = require('./routes/user');
+
 
 const app = express();
 app.use(express.json());
@@ -13,6 +15,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use('/api/user', userRoutes);
 app.use('/api', sembakoRoutes);
 app.use(express.static(path.join(__dirname, 'public')));
 
