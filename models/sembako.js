@@ -1,5 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Pastikan impor sequelize dari database.js
+const sequelize = require('../config/database'); // Ensure this path is correct
 
 const Sembako = sequelize.define('Sembako', {
     name: {
