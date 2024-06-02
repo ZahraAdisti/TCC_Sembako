@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Menggunakan middleware untuk menyajikan file statis
-app.use(express.static(path.join(__dirname, 'public' ));
+app.use(express.static(path.join(__dirname, 'public' )));
 
 // Menangani permintaan untuk file index.html
 app.get('/', (req, res) => {
