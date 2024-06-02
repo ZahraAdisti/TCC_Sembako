@@ -1,3 +1,7 @@
 # app.yaml
-runtime: nodejs18
-service: fe-toko-sembako 
+runtime: python39
+handlers:
+- url: /.*
+  static_files: index.html
+  upload: index.html
+service:  fe-todo-sembako
