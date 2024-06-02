@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manajemen Barang</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .flex-container {
+      display: flex;
+    }
+
+    .flex-item {
+      flex: 1;
+      margin-right: 20px;
+    }
+
+    input[type="text"] {
+      width: calc(100% - 10px);
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="flex-container">
+      <!-- Bagian untuk Mengedit Barang -->
+      <div class="flex-item" id="editSection">
+        <h2>Edit Barang</h2>
+        <form id="editItemForm">
+          <input type="text" id="editNama" name="nama" placeholder="Nama" required><br>
+          <input type="text" id="editDescription" name="description" placeholder="Description" required><br>
+          <input type="text" id="editQuantity" name="quantity" placeholder="Quantity" required><br>
+          <input type="text" id="editPrice" name="price" placeholder="Price" required><br>
+          <input type="text" id="editExpirationDate" name="expiration_date" placeholder="Expiration Date" required><br><br>
+          <input type="submit" value="Edit Barang">
+        </form>
+      </div>
+      <!-- Bagian untuk Menambah Barang Baru -->
+      <div class="flex-item" id="addSection">
+        <h2>Tambah Barang Baru</h2>
+        <form id="addItemForm">
+          <input type="text" id="addNama" name="nama" placeholder="Nama" required><br>
+          <input type="text" id="addDescription" name="description" placeholder="Description" required><br>
+          <input type="text" id="addQuantity" name="quantity" placeholder="Quantity" required><br>
+          <input type="text" id="addPrice" name="price" placeholder="Price" required><br>
+          <input type="text" id="addExpirationDate" name="expiration_date" placeholder="Expiration Date" required><br><br>
+          <input type="submit" value="Tambah Barang">
+        </form>
+      </div>
+    </div>
+
+    <!-- Bagian untuk Menampilkan List Barang -->
+    <div class="section" id="listSection">
+      <h2>List Barang</h2>
+      <ul id="itemList">
+        <!-- Data barang akan ditampilkan di sini -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    // Simulasi data barang (untuk keperluan contoh)
+    let items = [
+      { id: 1, nama: "Barang 1", description: "Deskripsi Barang 1", quantity: 10, price: 100, expiration_date: "2024-12-31" },
+      { id: 2, nama: "Barang 2", description: "Deskripsi Barang 2", quantity: 20, price: 200, expiration_date: "2024-12-31" }
+    ];
+
+    // Fungsi untuk menampilkan data barang
+    function renderItems() {
+      const itemList = document.getElementById('itemList');
+      itemList.innerHTML = '';
+      items.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `Nama: ${item.nama} | Description: ${item.description} | Quantity: ${item.quantity} | Price: $${item.price} | Expiration Date: ${item.expiration_date} | <button onclick="editItem(${item.id})">Edit</button> | <button onclick="deleteItem(${item.id})">Delete</button>`;
+        itemList.appendChild(li);
+      });
+    }
+
+    // Fungsi untuk menambahkan barang baru
+    function addItem(event) {
+      event.preventDefault();
+      const form = document.getElementById('addItemForm');
+      const newItem = {
+        id: items.length + 1, // ID unik untuk setiap barang
+        nama: form.nama.value,
+        description: form.description.value,
+        quantity: form.quantity.value,
+        price: form.price.value,
+        expiration_date: form.expiration_date.value
+      };
+      items.push(newItem);
+      renderItems();
+      form.reset();
+    }
+
+    // Fungsi untuk mengedit barang
+    function editItem(id) {
+      const itemToEdit = items.find(item => item.id === id);
+      const form = document.getElementById('editItemForm');
+      form.nama.value = itemToEdit.nama;
+      form.description.value = itemToEdit.description;
+      form.quantity.value = itemToEdit.quantity;
+      form.price.value = itemToEdit.price;
+      form.expiration_date.value = itemToEdit.expiration_date;
+    }
+
+    // Fungsi untuk menyimpan perubahan pada barang yang diedit
+    function saveEdit(event) {
+      event.preventDefault();
+      const form = document.getElementById('editItemForm');
+      const editedItem = {
+        nama: form.nama.value,
+        description: form.description.value,
+        quantity: form.quantity.value,
+        price: form.price.value,
+        expiration_date: form.expiration_date.value
+      };
+      // Perbarui item dalam array berdasarkan ID
+      const id = items.findIndex(item => item.id === editingItemId);
+      items[id] = { ...items[id], ...editedItem };
+      renderItems();
+      form.reset();
+      // Sembunyikan form edit setelah penyimpanan
+      document.getElementById('editSection').style.display = 'none';
+    }
+
+    // Fungsi untuk menghapus barang
+    function deleteItem(id) {
+      items = items.filter(item => item.id !== id);
+      renderItems();
+    }
+
+    // Memanggil fungsi renderItems() untuk menampilkan data barang saat halaman dimuat
+    renderItems();
+  </script>
+</body>
+</html>
