@@ -4,4 +4,4 @@ handlers:
 - url: /.*
   static_files: index.html
   upload: index.html
-service:  fe-todo-sembako
+service: fe-todo-sembako
