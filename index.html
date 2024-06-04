@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <script>
+ <script>
     let editingItemId = null;
 
     // Fungsi untuk menampilkan data barang
@@ -107,7 +107,12 @@
       const itemList = document.getElementById('itemList');
       itemList.innerHTML = '';
       fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/')
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.json();
+        })
         .then(data => {
           data.forEach(item => {
             const li = document.createElement('li');
@@ -115,7 +120,9 @@
             itemList.appendChild(li);
           });
         })
-        .catch(error => console.error('Error fetching items:', error));
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
     }
 
     // Fungsi untuk menambahkan barang baru
@@ -135,21 +142,33 @@
           expiration_date: form.expiration_date.value
         })
       })
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
       .then(() => {
         renderItems();
         form.reset();
       })
-      .catch(error => console.error('Error adding item:', error));
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
     }
 
     // Fungsi untuk mengedit barang
     function editItem(id) {
-      editingItemId = id;
+      const form = document.getElementById('editItemForm');
       fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`)
-        .then(response => response.json())
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+          }
+          return response.json();
+        })
         .then(data => {
-          const form = document.getElementById('editItemForm');
+          editingItemId = id;
           form.nama.value = data.nama;
           form.description.value = data.description;
           form.quantity.value = data.quantity;
@@ -157,7 +176,9 @@
           form.expiration_date.value = data.expiration_date;
           document.getElementById('editSection').style.display = 'block';
         })
-        .catch(error => console.error('Error fetching item:', error));
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
     }
 
     // Fungsi untuk menyimpan perubahan pada barang yang diedit
@@ -177,13 +198,17 @@
           expiration_date: form.expiration_date.value
         })
       })
-      .then(() => {
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
         renderItems();
         form.reset();
         document.getElementById('editSection').style.display = 'none';
-        editingItemId = null;
       })
-      .catch(error => console.error('Error saving item:', error));
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
     }
 
     // Fungsi untuk menghapus barang
@@ -191,12 +216,18 @@
       fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`, {
         method: 'DELETE'
       })
-      .then(() => {
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
         renderItems();
       })
-      .catch(error => console.error('Error deleting item:', error));
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
     }
 
+    // Assign event listeners
     document.getElementById('addItemForm').addEventListener('submit', addItem);
     document.getElementById('editItemForm').addEventListener('submit', saveEdit);
 
@@ -204,7 +235,12 @@
     fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/user/login', {
       method: 'GET'
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
     .then(data => {
       if (data.success) {
         // User is logged in, render the items list
@@ -214,7 +250,9 @@
         window.location.href = 'login.html';
       }
     })
-    .catch(error => console.error('Error checking login status:', error));
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
   </script>
 </body>
 </html>
