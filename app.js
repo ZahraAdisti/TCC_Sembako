@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 const userRoutes = require('./routes/userRoutes'); // Pastikan impor route user
-const userRoutes = require('./routes/sembakoRoutes');
+const sembakoRoutes = require('./routes/sembakoRoutes');
 
 // Middleware
 app.use(express.json());
