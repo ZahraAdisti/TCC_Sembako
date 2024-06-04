@@ -183,14 +183,11 @@
           expiration_date: form.expiration_date.value
         })
       })
-      .then(response => {
-        if (response.ok) {
-          renderItems();
-          form.reset();
-          document.getElementById('editSection').style.display = 'none';
-        } else {
-          throw new Error('Failed to update item');
-        }
+      .then(response => response.json())
+      .then(data => {
+        renderItems();
+        form.reset();
+        document.getElementById('editSection').style.display = 'none';
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -202,37 +199,17 @@
       fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`, {
         method: 'DELETE'
       })
-      .then(response => {
-        if (response.ok) {
-          renderItems();
-        } else {
-          throw new Error('Failed to delete item');
-        }
+      .then(() => {
+        renderItems();
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
       });
     }
 
-    // Assign event listeners
     document.getElementById('addItemForm').addEventListener('submit', addItem);
     document.getElementById('editItemForm').addEventListener('submit', saveEdit);
-
-    // Check if the user is logged in
-    fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/user/login', {
-      method: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        renderItems();
-      } else {
-        window.location.href = 'login.html';
-      }
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
+    renderItems();
   </script>
 </body>
 </html>
