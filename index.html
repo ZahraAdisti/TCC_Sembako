@@ -188,8 +188,20 @@
         });
     }
 
-    // Memanggil fungsi renderItems() untuk menampilkan data barang saat halaman dimuat
-    renderItems();
+    // Check if the user is logged in
+  fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/user/login', {
+    method: 'GET'
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      // User is logged in, render the items list
+      renderItems();
+    } else {
+      // User is not logged in, redirect to the login page
+      window.location.href = 'login.html';
+    }
+  });
 </script>
 </body>
 </html>
