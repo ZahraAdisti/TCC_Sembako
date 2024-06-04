@@ -230,8 +230,8 @@
     }
   }
 
-  function showEditForm(id, name, description, price, quantity, expiration_date) {
-    document.getElementById('editName').value = name;
+  async function showEditForm(id, name, description, price, quantity, expiration_date) {
+    document.getElementById('editNama').value = name;
     document.getElementById('editDescription').value = description;
     document.getElementById('editPrice').value = price;
     document.getElementById('editQuantity').value = quantity;
@@ -245,7 +245,7 @@
   async function saveEditedItem(event) {
     event.preventDefault();
     const id = document.getElementById('editFormContainer').dataset.itemId;
-    const name = document.getElementById('editName').value;
+    const name = document.getElementById('editNama').value;
     const description = document.getElementById('editDescription').value;
     const price = document.getElementById('editPrice').value;
     const quantity = document.getElementById('editQuantity').value;
@@ -275,7 +275,9 @@
   window.onload = function () {
     fetchSembako();
     document.getElementById('addItemForm').addEventListener('submit', addItem);
+    document.getElementById('editItemForm').addEventListener('submit', saveEditedItem);
   };
 </script>
+
 </body>
 </html>
