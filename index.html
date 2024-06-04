@@ -230,6 +230,7 @@
     }
   }
 
+  
   async function showEditForm(id, name, description, price, quantity, expiration_date) {
     document.getElementById('editNama').value = name;
     document.getElementById('editDescription').value = description;
@@ -237,14 +238,15 @@
     document.getElementById('editQuantity').value = quantity;
     document.getElementById('editExpirationDate').value = expiration_date;
 
-    const editFormContainer = document.getElementById('editFormContainer');
-    editFormContainer.style.display = 'block';
-    editFormContainer.dataset.itemId = id;
+    // Display the edit form
+    document.getElementById('editSection').style.display = 'block';
+    // Set the data-item-id attribute to the id of the item being edited
+    document.getElementById('editItemForm').setAttribute('data-item-id', id);
   }
 
   async function saveEditedItem(event) {
     event.preventDefault();
-    const id = document.getElementById('editFormContainer').dataset.itemId;
+    const id = document.getElementById('editItemForm').getAttribute('data-item-id'); // Get the item id from data attribute
     const name = document.getElementById('editNama').value;
     const description = document.getElementById('editDescription').value;
     const price = document.getElementById('editPrice').value;
@@ -262,14 +264,11 @@
       const data = await response.json();
       console.log('Item edited:', data);
       fetchSembako();
-      cancelEdit();
+      // Hide the edit form after editing
+      document.getElementById('editSection').style.display = 'none';
     } catch (error) {
       console.error('Error editing item:', error);
     }
-  }
-
-  function cancelEdit() {
-    document.getElementById('editFormContainer').style.display = 'none';
   }
 
   window.onload = function () {
