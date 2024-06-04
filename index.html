@@ -191,7 +191,7 @@
 
     async function addItem(event) {
         event.preventDefault();
-        const name = document.getElementById('addName').value;
+        const name = document.getElementById('addNama').value;
         const description = document.getElementById('addDescription').value;
         const price = document.getElementById('addPrice').value;
         const quantity = document.getElementById('addQuantity').value;
@@ -205,7 +205,8 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, description, });
+                body: JSON.stringify({ name, description, price, quantity, expiration_date })
+            });
             const data = await response.json();
             console.log('Item added:', data);
             fetchSembako();
@@ -275,6 +276,6 @@
         fetchSembako();
         document.getElementById('addItemForm').addEventListener('submit', addItem);
     };
-  </script>
+</script>
 </body>
 </html>
