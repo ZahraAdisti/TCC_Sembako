@@ -8,7 +8,7 @@ const userRoutes = require('./routes/userRoutes');
 // Middleware
 app.use(express.json());
 
-// Middleware for CORS
+// Middleware untuk CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -20,17 +20,17 @@ app.use((req, res, next) => {
 app.use('/api/user', userRoutes);
 app.use('/api', sembakoRoutes);
 
-// Serve static files from the 'public' directory
+// Layani file statis dari direktori 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Sync the database schema
+// Sinkronisasi skema database
 sequelize.sync().then(() => {
-    console.log('Database synced');
+    console.log('Database tersinkronisasi');
 }).catch(err => {
-    console.error('Error syncing database:', err);
+    console.error('Error menyinkronisasi database:', err);
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server started on port ${PORT}`);
+    console.log(`Server dimulai pada port ${PORT}`);
 });
