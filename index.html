@@ -100,75 +100,96 @@
   </div>
 
   <script>
-   
+   // Fungsi untuk menampilkan data barang
+   function renderItems() {
+     const itemList = document.getElementById('itemList');
+     itemList.innerHTML = '';
+     fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/')
+       .then(response => response.json())
+       .then(data => {
+         data.forEach(item => {
+           const li = document.createElement('li');
+           li.innerHTML = `Nama: ${item.nama} | Description: ${item.description} | Quantity: ${item.quantity} | Price: $${item.price} | Expiration Date: ${item.expiration_date} | <button onclick="editItem(${item.id})">Edit</button> | <button onclick="deleteItem(${item.id})">Delete</button>`;
+           itemList.appendChild(li);
+         });
+       });
+   }
 
-    // Fungsi untuk menampilkan data barang
-    function renderItems() {
-      const itemList = document.getElementById('itemList');
-      itemList.innerHTML = '';
-      items.forEach(item => {
-        const li = document.createElement('li');
-        li.innerHTML = `Nama: ${item.nama} | Description: ${item.description} | Quantity: ${item.quantity} | Price: $${item.price} | Expiration Date: ${item.expiration_date} | <button onclick="editItem(${item.id})">Edit</button> | <button onclick="deleteItem(${item.id})">Delete</button>`;
-        itemList.appendChild(li);
-      });
-    }
+   // Fungsi untuk menambahkan barang baru
+   function addItem(event) {
+     event.preventDefault();
+     const form = document.getElementById('addItemForm');
+     fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/', {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({
+         nama: form.nama.value,
+         description: form.description.value,
+         quantity: form.quantity.value,
+         price: form.price.value,
+         expiration_date: form.expiration_date.value
+      	})
+    	})
+    	.then(response => response.json())
+    	.then(() => {
+       renderItems();
+       form.reset();
+    	});
+   }
 
-    // Fungsi untuk menambahkan barang baru
-    function addItem(event) {
-      event.preventDefault();
-      const form = document.getElementById('addItemForm');
-      const newItem = {
-        id: items.length + 1, // ID unik untuk setiap barang
-        nama: form.nama.value,
-        description: form.description.value,
-        quantity: form.quantity.value,
-        price: form.price.value,
-        expiration_date: form.expiration_date.value
-      };
-      items.push(newItem);
-      renderItems();
-      form.reset();
-    }
+   // Fungsi untuk mengedit barang
+   function editItem(id) {
+     const itemToEdit = items.find(item => item.id === id);
+     const form = document.getElementById('editItemForm');
+     fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`)
+       .then(response => response.json())
+       .then(data => {
+         form.nama.value = data.nama;
+         form.description.value = data.description;
+         form.quantity.value = data.quantity;
+         form.price.value = data.price;
+         form.expiration_date.value = data.expiration_date;
+      	});
+   }
 
-    // Fungsi untuk mengedit barang
-    function editItem(id) {
-      const itemToEdit = items.find(item => item.id === id);
-      const form = document.getElementById('editItemForm');
-      form.nama.value = itemToEdit.nama;
-      form.description.value = itemToEdit.description;
-      form.quantity.value = itemToEdit.quantity;
-      form.price.value = itemToEdit.price;
-      form.expiration_date.value = itemToEdit.expiration_date;
-    }
-
-    // Fungsi untuk menyimpan perubahan pada barang yang diedit
-    function saveEdit(event) {
-      event.preventDefault();
-      const form = document.getElementById('editItemForm');
-      const editedItem = {
-        nama: form.nama.value,
-        description: form.description.value,
-        quantity: form.quantity.value,
-        price: form.price.value,
-        expiration_date: form.expiration_date.value
-      };
-      // Perbarui item dalam array berdasarkan ID
-      const id = items.findIndex(item => item.id === editingItemId);
-      items[id] = { ...items[id], ...editedItem };
-      renderItems();
-      form.reset();
-      // Sembunyikan form edit setelah penyimpanan
-      document.getElementById('editSection').style.display = 'none';
+   // Fungsi untuk menyimpan perubahan pada barang yang diedit
+   function saveEdit(event) {
+     event.preventDefault();
+     const form = document.getElementById('editItemForm');
+     fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${editingItemId}`, {
+       method: 'PUT',
+       headers: {
+         'Content-Type': 'application/json'
+      	},
+       body: JSON.stringify({
+         nana: form.nama.value,
+        	description: form.description.value,
+         quantity: form.quantity.value,
+         price: form.price.value,
+         expiration_date: form.expiration_date.value
+       })
+        })
+        .then(() => {
+            renderItems();
+            form.reset();
+            document.getElementById('editSection').style.display = 'none';
+        });
     }
 
     // Fungsi untuk menghapus barang
     function deleteItem(id) {
-      items = items.filter(item => item.id !== id);
-      renderItems();
+        fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`, {
+            method: 'DELETE'
+        })
+        .then(() => {
+            renderItems();
+        });
     }
 
     // Memanggil fungsi renderItems() untuk menampilkan data barang saat halaman dimuat
     renderItems();
-  </script>
+</script>
 </body>
 </html>
