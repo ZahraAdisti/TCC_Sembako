@@ -107,15 +107,8 @@
       const itemList = document.getElementById('itemList');
       itemList.innerHTML = '';
       fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/')
-        .then(response => {
-          console.log('Fetch response:', response);
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-          console.log('Fetched data:', data);
           data.forEach(item => {
             const li = document.createElement('li');
             li.innerHTML = `Nama: ${item.nama} | Description: ${item.description} | Quantity: ${item.quantity} | Price: $${item.price} | Expiration Date: ${item.expiration_date} | <button onclick="editItem(${item.id})">Edit</button> | <button onclick="deleteItem(${item.id})">Delete</button>`;
@@ -144,15 +137,8 @@
           expiration_date: form.expiration_date.value
         })
       })
-      .then(response => {
-        console.log('Add item response:', response);
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        return response.json();
-      })
+      .then(response => response.json())
       .then(data => {
-        console.log('Added item data:', data);
         renderItems();
         form.reset();
       })
@@ -165,15 +151,8 @@
     function editItem(id) {
       const form = document.getElementById('editItemForm');
       fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`)
-        .then(response => {
-          console.log('Edit item fetch response:', response);
-          if (!response.ok) {
-            throw new Error('Network response was not ok ' + response.statusText);
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-          console.log('Edit item data:', data);
           editingItemId = id;
           form.nama.value = data.nama;
           form.description.value = data.description;
@@ -205,13 +184,13 @@
         })
       })
       .then(response => {
-        console.log('Save edit response:', response);
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
+        if (response.ok) {
+          renderItems();
+          form.reset();
+          document.getElementById('editSection').style.display = 'none';
+        } else {
+          throw new Error('Failed to update item');
         }
-        renderItems();
-        form.reset();
-        document.getElementById('editSection').style.display = 'none';
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -224,11 +203,11 @@
         method: 'DELETE'
       })
       .then(response => {
-        console.log('Delete item response:', response);
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
+        if (response.ok) {
+          renderItems();
+        } else {
+          throw new Error('Failed to delete item');
         }
-        renderItems();
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
@@ -243,20 +222,11 @@
     fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/user/login', {
       method: 'GET'
     })
-    .then(response => {
-      console.log('Login check response:', response);
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-    })
+    .then(response => response.json())
     .then(data => {
-      console.log('Login check data:', data);
       if (data.success) {
-        // User is logged in, render the items list
         renderItems();
       } else {
-        // User is not logged in, redirect to the login page
         window.location.href = 'login.html';
       }
     })
