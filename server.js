@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const sequelize = require('./config/database'); // Impor dari config/database.js
-const sembakoRoutes = require('./routes/sembakoRoutes'); // Impor route sembako yang benar
-const userRoutes = require('./routes/userRoutes'); // Impor route user yang benar
+const sequelize = require('./config/database');
+const sembakoRoutes = require('./routes/sembakoRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Middleware
 app.use(express.json());
@@ -17,8 +17,8 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/api/user', userRoutes); // Penggunaan routes user yang benar
-app.use('/api', sembakoRoutes); // Penggunaan routes sembako yang benar
+app.use('/api/user', userRoutes);
+app.use('/api', sembakoRoutes);
 
 // Layani file statis dari direktori 'public'
 app.use(express.static(path.join(__dirname, 'public')));
