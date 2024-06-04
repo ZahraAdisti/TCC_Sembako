@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/api/user', userRoutes); // Pastikan impor dan penggunaan routes user
-app.use('/api/sembako', sembakoRoutes); // Pastikan impor dan penggunaan routes user
+app.use('/api', sembakoRoutes); // Pastikan impor dan penggunaan routes user
 
 
 // Serve static files from the 'public' directory
