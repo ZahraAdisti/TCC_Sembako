@@ -100,116 +100,122 @@
   </div>
 
   <script>
-    let editingItemId = null;
+        let editingItemId = null;
 
-    // Fungsi untuk menampilkan data barang
-    function renderItems() {
-      const itemList = document.getElementById('itemList');
-      itemList.innerHTML = '';
-      fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/')
-        .then(response => response.json())
-        .then(data => {
-          data.forEach(item => {
-            const li = document.createElement('li');
-            li.innerHTML = `Nama: ${item.nama} | Description: ${item.description} | Quantity: ${item.quantity} | Price: $${item.price} | Expiration Date: ${item.expiration_date} | <button onclick="editItem(${item.id})">Edit</button> | <button onclick="deleteItem(${item.id})">Delete</button>`;
-            itemList.appendChild(li);
-          });
-        })
-        .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-        });
-    }
+        // Fungsi untuk menampilkan data barang
+        function renderItems() {
+            const itemList = document.getElementById('itemList');
+            itemList.innerHTML = '';
+            fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `Nama: ${item.nama} | Deskripsi: ${item.description} | Harga: ${item.price} | Jumlah: ${item.quantity} | Tanggal Kadaluarsa: ${item.expiration_date} | <button onclick="editItem(${item.id})">Edit</button> | <button onclick="deleteItem(${item.id})">Delete</button>`;
+                        itemList.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
 
-    // Fungsi untuk menambahkan barang baru
-    function addItem(event) {
-      event.preventDefault();
-      const form = document.getElementById('addItemForm');
-      fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          nama: form.nama.value,
-          description: form.description.value,
-          quantity: form.quantity.value,
-          price: form.price.value,
-          expiration_date: form.expiration_date.value
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        renderItems();
-        form.reset();
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
-    }
+        // Fungsi untuk menambahkan barang baru
+        function addItem(event) {
+            event.preventDefault();
+            const form = document.getElementById('addItemForm');
+            fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nama: form.name.value,
+                    description: form.description.value,
+                    price: form.price.value,
+                    quantity: form.quantity.value,
+                    expiration_date: form.expiration_date.value
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    renderItems();
+                    form.reset();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
 
-    // Fungsi untuk mengedit barang
-    function editItem(id) {
-      const form = document.getElementById('editItemForm');
-      fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`)
-        .then(response => response.json())
-        .then(data => {
-          editingItemId = id;
-          form.nama.value = data.nama;
-          form.description.value = data.description;
-          form.quantity.value = data.quantity;
-          form.price.value = data.price;
-          form.expiration_date.value = data.expiration_date;
-          document.getElementById('editSection').style.display = 'block';
-        })
-        .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-        });
-    }
+        // Fungsi untuk mengedit barang
+        function editItem(id) {
+            const form = document.getElementById('editItemForm');
+            fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    editingItemId = id;
+                    form.name.value = data.nama;
+                    form.description.value = data.description;
+                    form.price.value = data.price;
+                    form.quantity.value = data.quantity;
+                    form.expiration_date.value = data.expiration_date;
+                    document.getElementById('editItemForm').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
 
-    // Fungsi untuk menyimpan perubahan pada barang yang diedit
-    function saveEdit(event) {
-      event.preventDefault();
-      const form = document.getElementById('editItemForm');
-      fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${editingItemId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          nama: form.nama.value,
-          description: form.description.value,
-          quantity: form.quantity.value,
-          price: form.price.value,
-          expiration_date: form.expiration_date.value
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        renderItems();
-        form.reset();
-        document.getElementById('editSection').style.display = 'none';
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
-    }
+        // Fungsi untuk menyimpan perubahan pada barang yang diedit
+        function saveEdit(event) {
+            event.preventDefault();
+            const form = document.getElementById('editItemForm');
+            fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${editingItemId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nama: form.name.value,
+                    description: form.description.value,
+                    price: form.price.value,
+                    quantity: form.quantity.value,
+                    expiration_date: form.expiration_date.value
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    renderItems();
+                    form.reset();
+                    document.getElementById('editItemForm').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
 
-    // Fungsi untuk menghapus barang
-    function deleteItem(id) {
-      fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`, {
-        method: 'DELETE'
-      })
-      .then(() => {
-        renderItems();
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
-    }
+        // Fungsi untuk menghapus barang
+        function deleteItem(id) {
+            fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    renderItems();
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
 
-    document.getElementById('addItemForm').addEventListener('submit', addItem);
-    document.getElementById('editItemForm').addEventListener('submit', saveEdit);
-    renderItems();
-  </script>
+        // Fungsi untuk membatalkan proses edit
+        function cancelEdit() {
+            document.getElementById('editItemForm').style.display = 'none';
+        }
+
+        // Saat halaman dimuat, tampilkan daftar barang
+        window.onload = function () {
+            renderItems();
+        };
+    </script>
 </body>
 </html>
