@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,6 +9,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 // Middleware untuk meng-handle form data
 app.use(express.urlencoded({ extended: false }));
+
+// Menggunakan middleware CORS
+app.use(cors());
 
 // Menggunakan middleware untuk menyajikan file statis
 app.use(express.static(path.join(__dirname, 'public' )));
