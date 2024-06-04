@@ -18,13 +18,5 @@ app.use(function (req, res, next) {
 app.use('/api/user', userRoutes); // Pastikan impor dan penggunaan routes user
 app.use('/api', sembakoRoutes);
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-sequelize.sync().then(() => {
-    console.log('Database synced');
-}).catch(err => {
-    console.error('Error syncing database:', err);
-});
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
