@@ -77,138 +77,42 @@
       <button type="submit" class="btn">Login</button>
     </form>
   </div>
-<script>
-  async function fetchSembako() {
-    try {
-      const response = await fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/', {
-        headers: {
-          'Content-Type': 'application/json'
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      console.log('Attempting login with', { username, password }); // Log login attempt
+
+      try {
+        const response = await fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ username, password })
+        });
+
+        // Debugging: Check status and headers
+        console.log('Status:', response.status);
+        console.log('Headers:', response.headers);
+
+        const data = await response.json();
+        console.log('Response Data:', data); // Debugging: Log response data
+
+        if (response.ok) {
+          sessionStorage.setItem('isLoggedIn', 'true'); // Mark user as logged in
+          window.location.href = 'index.html'; // Redirect to the main page upon successful login
+        } else {
+          alert(data.message || 'Login failed');
         }
-      });
-      const data = await response.json();
-      displaySembako(data);
-    } catch (error) {
-      console.error('Error fetching sembako:', error);
-    }
-  }
-
-  function displaySembako(items) {
-    const itemList = document.getElementById('itemList');
-    itemList.innerHTML = '';
-
-    items.forEach(item => {
-      const row = document.createElement('li');
-      row.innerHTML = `
-        <div class="item-row">
-          <div class="item-details">
-            <div>${item.name}</div>
-            <div>|</div>
-            <div>${item.description}</div>
-            <div>|</div>
-            <div>${item.price}</div>
-            <div>|</div>
-            <div>${item.quantity}</div>
-            <div>|</div>
-            <div>${item.expiration_date}</div>
-          </div>
-          <div class="item-actions">
-            <button class="edit" onclick="showEditForm(${item.id}, '${item.name}', '${item.description}', ${item.price}, ${item.quantity}, '${item.expiration_date}')">Edit</button>
-            <button class="delete" onclick="deleteItem(${item.id})">Delete</button>
-          </div>
-        </div>
-      `;
-      itemList.appendChild(row);
+      } catch (error) {
+        console.error('Error logging in:', error);
+        alert('Error logging in, please try again later.');
+      }
     });
-  }
-
-  async function addItem(event) {
-    event.preventDefault();
-    const name = document.getElementById('addNama').value;
-    const description = document.getElementById('addDescription').value;
-    const price = document.getElementById('addPrice').value;
-    const quantity = document.getElementById('addQuantity').value;
-    const expiration_date = document.getElementById('addExpirationDate').value;
-
-    console.log({ name, description, price, quantity, expiration_date }); // Debugging log
-
-    try {
-      const response = await fetch('https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, description, price, quantity, expiration_date })
-      });
-      const data = await response.json();
-      console.log('Item added:', data);
-      fetchSembako();
-      // Clear the form after adding a new item
-      document.getElementById('addItemForm').reset();
-    } catch (error) {
-      console.error('Error adding item:', error);
-    }
-  }
-
-  async function deleteItem(id) {
-    try {
-      const response = await fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`, {
-        method: 'DELETE'
-      });
-      const data = await response.json();
-      console.log('Item deleted:', data);
-      fetchSembako();
-    } catch (error) {
-      console.error('Error deleting item:', error);
-    }
-  }
-
-  async function showEditForm(id, name, description, price, quantity, expiration_date) {
-    document.getElementById('editNama').value = name;
-    document.getElementById('editDescription').value = description;
-    document.getElementById('editPrice').value = price;
-    document.getElementById('editQuantity').value = quantity;
-    document.getElementById('editExpirationDate').value = expiration_date;
-
-    const editFormContainer = document.getElementById('editFormContainer');
-    editFormContainer.style.display = 'block';
-    editFormContainer.dataset.itemId = id;
-  }
-
-  async function saveEditedItem(event) {
-    event.preventDefault();
-    const id = document.getElementById('editFormContainer').dataset.itemId;
-    const name = document.getElementById('editNama').value;
-    const description = document.getElementById('editDescription').value;
-    const price = document.getElementById('editPrice').value;
-    const quantity = document.getElementById('editQuantity').value;
-    const expiration_date = document.getElementById('editExpirationDate').value;
-
-    try {
-      const response = await fetch(`https://crud-toko-sembako-dot-tokosembako.et.r.appspot.com/api/sembako/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name, description, price, quantity, expiration_date })
-      });
-      const data = await response.json();
-      console.log('Item edited:', data);
-      fetchSembako();
-      cancelEdit();
-    } catch (error) {
-      console.error('Error editing item:', error);
-    }
-  }
-
-  function cancelEdit() {
-    document.getElementById('editFormContainer').style.display = 'none';
-  }
-
-  window.onload = function () {
-    fetchSembako();
-    document.getElementById('addItemForm').addEventListener('submit', addItem);
-    document.getElementById('editItemForm').addEventListener('submit', saveEditedItem);
-  };
-</script>
+  </script>
 </body>
 </html>
