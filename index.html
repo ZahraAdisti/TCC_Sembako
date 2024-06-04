@@ -264,6 +264,8 @@
       const data = await response.json();
       console.log('Item edited:', data);
       fetchSembako();
+       // Reset the edit form after editing
+        document.getElementById('editItemForm').reset();
       // Hide the edit form after editing
      // document.getElementById('editSection').style.display = 'none';
     } catch (error) {
