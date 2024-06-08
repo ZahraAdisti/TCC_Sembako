@@ -23,12 +23,12 @@ app.use(function (req, res, next) {
 
 // Menangani permintaan untuk file index.html
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Menangani permintaan untuk file login.html
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+  res.sendFile(path.join(__dirname, 'login.html'));
 });
 
 // Mulai server
