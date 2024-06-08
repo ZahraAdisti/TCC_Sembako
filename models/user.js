@@ -10,9 +10,7 @@ const User = sequelize.define('user', {
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    }, {
-    tableName: 'user', // Nama tabel di database adalah 'user'
-    freezeTableName: true
+    }
 });
 
 module.exports = User;
