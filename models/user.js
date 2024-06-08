@@ -7,10 +7,12 @@ const User = sequelize.define('user', {
         allowNull: false,
         unique: true
     },
-    password: {
+     password: {
         type: DataTypes.STRING,
         allowNull: false
     }
+}, {
+    tableName: 'user'
 });
 
 module.exports = User;
